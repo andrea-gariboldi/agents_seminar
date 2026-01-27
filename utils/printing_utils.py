@@ -39,9 +39,9 @@ def print_agent_node(node):
     elif(isinstance(node, ModelRequestNode)):
         for part in node.request.parts:
             if(isinstance(part, SystemPromptPart)):
-                pretty_print(part.content, color=bcolors.BLUE)
+                pretty_print(f"[SYSTEM PROMPT] {part.content}", color=bcolors.HEADER)
             elif(isinstance(part, UserPromptPart)):
-                pretty_print(part.content)
+                pretty_print(f"[USER PROMPT] {part.content}", color=bcolors.HEADER)
             elif(isinstance(part, ToolReturnPart)):
                 pretty_print(part.content, color=bcolors.MINT)
             elif(isinstance(part, RetryPromptPart)):
