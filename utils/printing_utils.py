@@ -40,7 +40,7 @@ def print_agent_node(node):
         for part in node.request.parts:
             if(isinstance(part, SystemPromptPart)):
                 pretty_print(part.content, color=bcolors.BLUE)
-            elif(isinstance(part, UserPromptPart, color=bcolors.BLUE)):
+            elif(isinstance(part, UserPromptPart)):
                 pretty_print(part.content)
             elif(isinstance(part, ToolReturnPart)):
                 pretty_print(part.content, color=bcolors.MINT)
