@@ -55,7 +55,7 @@ class BashProcess:
             output = output[:5000]+"\n ... (output truncated, too long)"
         return output.strip()
 
-def create_bash_tool(runs_dir, timeout, max_retries, conda_env_path="/usr/local/envs/agent_env"):
+def create_bash_tool(runs_dir, timeout, max_retries, conda_env_path="/usr/local/envs/agents_env"):
         bash = BashProcess(
             timeout=timeout,
             runs_dir=runs_dir,

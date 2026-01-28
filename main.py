@@ -15,10 +15,10 @@ ollama_model = OpenAIChatModel(
 )
 
 tools = [
-    create_bash_tool(runs_dir=os.getcwd(), 
-                     timeout=60, 
-                     max_retries=2, conda_env_path="/home/agari01/miniconda3/envs/agents_env") 
-                     #conda_env_path needs to be set according to your local env 
+    create_bash_tool(runs_dir=os.getcwd(),
+                     timeout=60,
+                     max_retries=2) 
+                     #conda_env_path parameter needs to be set according to your local env (default will work with colab)
     ]
 
 agent = Agent(
