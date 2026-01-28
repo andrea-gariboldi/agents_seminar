@@ -21,7 +21,7 @@ def pretty_print(content, width=120, color=None):
     if isinstance(content, str):
         print(textwrap.fill(content, width=width))
     else:
-        pprint.pprint(content, width=width)
+        pprint.pprint(content, width=width, ensure_ascii=False)
 
 def print_agent_node(node):
     if isinstance(node, CallToolsNode):
