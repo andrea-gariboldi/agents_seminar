@@ -31,8 +31,8 @@ def print_agent_node(node):
             elif isinstance(part, ToolCallPart):
                 pretty_print(f"🔧 [Calling: {part.tool_name} tool] -> {part.args}", color=bcolors.ORANGE)
             elif(isinstance(part, ThinkingPart)):
-                pretty_print(f"{bcolors.GREEN}💭 [Thinking]{bcolors.RESET}", flush=True)
-                pretty_print(f"{bcolors.GREEN}{part.content}{bcolors.RESET}", flush=True)
+                pretty_print("💭 [Thinking]", color=bcolors.OKGREEN)
+                pretty_print(part.content, color=bcolors.OKGREEN)
             else:
                 pretty_print(f"{bcolors.FAIL}DEVINFO: Unexpected part type (in CallToolsNode): {type(part)}", flush=True)
                 pretty_print(part)
@@ -43,7 +43,7 @@ def print_agent_node(node):
             elif(isinstance(part, UserPromptPart)):
                 pretty_print(f"[USER PROMPT] {part.content}", color=bcolors.HEADER)
             elif(isinstance(part, ToolReturnPart)):
-                pretty_print(part.content, color=bcolors.MINT)
+                pretty_print(f"📊 [Tool output] -> {part.content}", color=bcolors.MINT)
             elif(isinstance(part, RetryPromptPart)):
                 pretty_print("Output Validation Failed, Retry info:")
                 pretty_print(part.content)
