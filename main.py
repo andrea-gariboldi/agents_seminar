@@ -24,7 +24,7 @@ tools = [
 agent = Agent(
     ollama_model,
     tools=tools,
-    system_prompt="You are an expert agent with bash scripting skills. Use the tools provided to answer the user's requests.",
+    system_prompt="You are an expert agent with bash scripting skills. Use the tools provided to answer the user's requests. Always create python files instead of defining and running them directly through bash tool.",
     deps_type=str
 )
 
