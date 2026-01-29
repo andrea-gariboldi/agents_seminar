@@ -1,12 +1,13 @@
 import pandas as pd
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
 
+from utils.dataset_utils import get_columns_from_dataset, exclude_column_from_dataset
+
 def evaluate_clustering(submission_path: str):
     print("==========Running Clustering Evaluation==========")
     try: 
         submission_df = pd.read_csv(submission_path)
-        
-        X = submission_df[['feat1', 'feat2', 'feat3', 'feat4']]
+        X = exclude_column_from_dataset(submission_df[get_columns_from_dataset("agents_workspace/data/ecoli.csv")], "seq_name")
         labels = submission_df['cluster_id']
         
         silhouette = silhouette_score(X, labels)
