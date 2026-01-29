@@ -9,6 +9,7 @@ from tools.bash_tool import create_bash_tool
 from utils.agent_utils import run_agent
 from utils.workspace_utils import cleanup_workspace
 from eval.evaluate_result import evaluate_clustering
+from utils.dataset_utils import get_columns_from_dataset
 
 cleanup_workspace() # careful, this will delete all files produced by previous agent runs (except the dataset)
 
@@ -32,7 +33,7 @@ agent = Agent(
     deps_type=str
 )
 
-user_prompt = f"""Your final deliverable is to cluster a datasets. The sumbmission file should contain the original columns: feat1, feat2, feat3, feat4 plus a new column cluster_id indicating the cluster assignment for each row.
+user_prompt = f"""Your final deliverable is to cluster a dataset. The sumbmission file should contain the original columns: {get_columns_from_dataset("agents_workspace/data/ecoli.csv")} plus a new column cluster_id indicating the cluster assignment for each row.
             The original dataset is in the directory: {os.getcwd()}/agents_workspace/data/. Save the file as submission.csv in the current working directory.            
             """
 
