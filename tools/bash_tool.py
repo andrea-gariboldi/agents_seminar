@@ -10,6 +10,7 @@ class BashProcess:
         self.locked = threading.Lock()
         self.runs_dir = runs_dir
         self.timeout = timeout
+        self.conda_env_path = get_conda_env_path()
 
     def run(self, command: str):
         with self.locked: #exclusive bash access
@@ -55,7 +56,7 @@ class BashProcess:
             output = output[:5000]+"\n ... (output truncated, too long)"
         return output.strip()
 
-def create_bash_tool(runs_dir, timeout, max_retries, conda_env_path="/usr/local/envs/agents_env"):
+def create_bash_tool(runs_dir, timeout, max_retries):
         bash = BashProcess(
             timeout=timeout,
             runs_dir=runs_dir,
@@ -80,7 +81,7 @@ def create_bash_tool(runs_dir, timeout, max_retries, conda_env_path="/usr/local/
                 command: A valid bash command.
             """  
             command_parsed = shlex.quote(command)
-            command = f"conda run -p {conda_env_path} --no-capture-output bash -c {command_parsed}"
+            command = f"conda run -p {bash.conda_env_path} --no-capture-output bash -c {command_parsed}"
             out = bash.run(command)
             return out
     
@@ -95,3 +96,19 @@ def create_bash_tool(runs_dir, timeout, max_retries, conda_env_path="/usr/local/
         )
 
         return bash_tool
+
+def get_conda_env_path(env_name="agents_env"):
+    try:
+        conda_info = subprocess.run(
+            ["conda", "info", "--base"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True
+        )
+        conda_base = conda_info.stdout.strip()
+        env_path = f"{conda_base}/envs/{env_name}"
+        return env_path
+    except subprocess.CalledProcessError as e:
+        print(f"Error retrieving conda base path: {e}")
+        return None
