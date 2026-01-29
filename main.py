@@ -7,7 +7,10 @@ from pydantic_ai.providers.ollama import OllamaProvider
 
 from tools.bash_tool import create_bash_tool
 from utils.agent_utils import run_agent
+from utils.workspace_utils import cleanup_workspace
 from eval.evaluate_result import evaluate_clustering
+
+cleanup_workspace() # careful, this will delete all files produced by previous agent runs (except the dataset)
 
 ollama_model = OpenAIChatModel(
     model_name='ministral-3:3b',
