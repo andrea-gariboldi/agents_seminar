@@ -1,13 +1,9 @@
-import os
+from pathlib import Path
 
-def cleanup_workspace():
-	for file in os.listdir("agents_workspace"):
-		file_path = os.path.join("agents_workspace", file)
-		try:
-			if os.path.isfile and file_path == "agents_workspace/data/ecoli.csv":
-				continue
-			if os.path.isfile(file_path):
-				os.unlink(file_path)
-		except Exception as e:
-			print(f"Error deleting file {file_path}: {e}")
-
+def cleanup_workspace(workspace_dir: str = "agents_workspace"):
+	print("Workspace dir", workspace_dir)
+	for item in Path(workspace_dir).iterdir():
+		if item.is_dir() and item.name == "data":
+			continue
+		else:
+			item.unlink()
