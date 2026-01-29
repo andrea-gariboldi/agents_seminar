@@ -43,7 +43,8 @@ def print_agent_node(node):
             elif(isinstance(part, UserPromptPart)):
                 pretty_print(f"[USER PROMPT] {part.content}", color=bcolors.HEADER)
             elif(isinstance(part, ToolReturnPart)):
-                pretty_print(f"📊 [Tool output] -> {part.content}", color=bcolors.MINT)
+                content = part.content if part.content else "<no output>"
+                pretty_print(f"📊 [Tool output] -> {content}", color=bcolors.MINT)
             elif(isinstance(part, RetryPromptPart)):
                 pretty_print("Output Validation Failed, Retry info:")
                 pretty_print(part.content)
