@@ -47,3 +47,6 @@ ENV/
 # Project specific
 *.log
 *.tmp
+
+# Agent created files
+agents_workspace/
