@@ -10,15 +10,15 @@ from utils.agent_utils import run_agent
 from eval.evaluate_result import evaluate_clustering
 
 ollama_model = OpenAIChatModel(
-    model_name='mistral:7b',
+    model_name='ministral-3:3b',
     provider=OllamaProvider(base_url='http://localhost:11434/v1'),  
 )
 
 tools = [
-    create_bash_tool(runs_dir=os.getcwd(),
+    create_bash_tool(runs_dir=f"{os.getcwd()}/agents_workspace/",
                      timeout=60,
-                     max_retries=2) 
-                     #conda_env_path parameter needs to be set according to your local env (default will work with colab)
+                     max_retries=2
+                     )
     ]
 
 agent = Agent(
@@ -28,8 +28,8 @@ agent = Agent(
     deps_type=str
 )
 
-user_prompt = """Your final deliverable is to cluster a datasets. The sumbmission file should contain the original columns: feat1, feat2, feat3, feat4 plus a new column cluster_id indicating the cluster assignment for each row.
-            The original dataset is: /home/agari01/agents_seminar/dataset.csv. Save the file as submission.csv in the current working directory.            
+user_prompt = f"""Your final deliverable is to cluster a datasets. The sumbmission file should contain the original columns: feat1, feat2, feat3, feat4 plus a new column cluster_id indicating the cluster assignment for each row.
+            The original dataset is in the directory: {os.getcwd()}/agents_workspace/data/. Save the file as submission.csv in the current working directory.            
             """
 
 async def main():
@@ -40,6 +40,6 @@ async def main():
         deps=None
     )
 
-    evaluate_clustering(submission_path="/home/agari01/agents_seminar/submission.csv")
+    evaluate_clustering(submission_path=f"{os.cwd()}/submission.csv")
 
 asyncio.run(main())
