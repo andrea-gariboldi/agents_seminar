@@ -40,6 +40,6 @@ async def main():
         deps=None
     )
 
-    evaluate_clustering(submission_path=f"{os.cwd()}/submission.csv")
+    evaluate_clustering(submission_path=f"{os.getcwd()}/agents_workspace/submission.csv")
 
 asyncio.run(main())
