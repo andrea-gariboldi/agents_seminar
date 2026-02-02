@@ -19,7 +19,7 @@ def run_clustering_script(script_path: str) -> pd.DataFrame:
         print_eval_message(str(e), True)
         raise e
     submission_df = pd.read_csv(os.path.join(script_dir, 'submission.csv'))
-    if submission_df:
+    if not submission_df.empty:
         print_eval_message("The agent's script produced submission.csv successfully.")
     else:
         print_eval_message("==========Clustering Script Produced No Output==========", True)
