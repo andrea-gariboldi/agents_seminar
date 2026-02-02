@@ -10,13 +10,22 @@ from utils.printing_utils import print_eval_message
 def run_clustering_script(script_path: str) -> pd.DataFrame:
     script_dir = os.path.dirname(script_path)
     dataset_path = os.path.join(script_dir, 'data', 'ecoli.csv')
-    subprocess.run(['conda', 'run', '-n', 'agents_env', 'python', script_path,
-                    '--input', dataset_path, '--output', 'submission.csv'],
-                    check=True, cwd=script_dir)
+    try:
+        subprocess.run(['conda', 'run', '-n', 'agents_env', 'python', script_path,
+                        '--input', dataset_path, '--output', 'submission.csv'],
+                        check=True, cwd=script_dir)
+    except subprocess.CalledProcessError as e:
+        print_eval_message("==========Clustering Script Failed to Run==========", True)
+        print_eval_message(str(e), True)
+        raise e
     submission_df = pd.read_csv(os.path.join(script_dir, 'submission.csv'))
+    if submission_df:
+        print_eval_message("The agent's script produced submission.csv successfully.")
+    else:
+        print_eval_message("==========Clustering Script Produced No Output==========", True)
     return submission_df
 
-def evaluate_clustering(script_path: str, data_path: str):
+def evaluate_clustering(script_path: str):
     print_eval_message("==========Running Clustering Script==========")
     submission_df = run_clustering_script(script_path)
     print_eval_message("==========Running Clustering Script==========")
