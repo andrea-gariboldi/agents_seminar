@@ -1,8 +1,13 @@
 import textwrap
 import pprint
+import json
 
 from pydantic_ai import CallToolsNode, ModelRequestNode
 from pydantic_ai.messages import TextPart, ThinkingPart, ToolCallPart, SystemPromptPart, UserPromptPart, ToolReturnPart, RetryPromptPart
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import TerminalTrueColorFormatter as TF
+from pygments.formatters import TerminalFormatter as TF
 
 class bcolors:
     HEADER = '\033[95m'
@@ -29,7 +34,12 @@ def print_agent_node(node):
             if isinstance(part, TextPart):
                 pretty_print(part.content)
             elif isinstance(part, ToolCallPart):
-                pretty_print(f"🔧 [Calling: {part.tool_name} tool] -> {part.args}", color=bcolors.ORANGE)
+                if part.tool_name == 'write_python_file':
+                    pretty_print(f"🔧 [Calling: {part.tool_name}]", color=bcolors.ORANGE)
+                    args_dict = json.loads(str(part.args))
+                    pretty_print_code(args_dict.get('code'))
+                else:
+                    pretty_print(f"🔧 [Calling: {part.tool_name} tool] -> {part.args}", color=bcolors.ORANGE)
             elif(isinstance(part, ThinkingPart)):
                 pretty_print("💭 [Thinking]", color=bcolors.OKGREEN)
                 pretty_print(part.content, color=bcolors.OKGREEN)
@@ -51,6 +61,49 @@ def print_agent_node(node):
             else:
                 pretty_print(f"DEVINFO: Unexpected part type (in ModelRequestNode): {type(part)}")
                 pretty_print(part)
+
+def pretty_print_code(code):
+    """
+    Pretty print Python code with syntax highlighting and line numbers.
+    args:
+        code (str): The code string to pretty print.
+    """
+    if not code:
+        return
+
+    # normalize escapes and dedent
+    code = code.replace('\\r\\n', '\n').replace('\\r', '\n')
+    code = code.replace('\\t', '\t').replace('\\n', '\n')
+    code = textwrap.dedent(code).strip('\n') + '\n'
+
+    header = f"{bcolors.BOLD}{bcolors.OKCYAN}----- CODE START -----{bcolors.ENDC}"
+    footer = f"{bcolors.BOLD}{bcolors.OKCYAN}-----  CODE END  -----{bcolors.ENDC}"
+    print(header)
+
+    try:
+        # Try to use pygments for nice terminal highlighting
+        # Prefer truecolor formatter if available, fall back to standard terminal formatter
+        try:
+            formatter = TF()
+        except Exception:
+            formatter = TF()
+
+        highlighted = highlight(code, PythonLexer(), formatter)
+        lines = highlighted.splitlines()
+        width = len(str(len(lines)))
+        for i, ln in enumerate(lines, 1):
+            lineno = f"{bcolors.BOLD}{bcolors.OKBLUE}{str(i).rjust(width)}{bcolors.ENDC} "
+            # ln already contains color codes from pygments
+            print(f"{lineno}{ln}")
+    except Exception:
+        # Fallback: simple numbered output without external coloring
+        lines = code.splitlines()
+        width = len(str(len(lines)))
+        for i, ln in enumerate(lines, 1):
+            lineno = f"{bcolors.BOLD}{bcolors.OKBLUE}{str(i).rjust(width)}{bcolors.ENDC} "
+            print(f"{lineno}{ln}")
+
+    print(footer)
 
 def print_eval_message(message: str, is_error: bool = False):
     if is_error:
