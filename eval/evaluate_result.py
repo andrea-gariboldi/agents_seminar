@@ -1,13 +1,27 @@
+import subprocess
+import os
+
 import pandas as pd
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
 
 from utils.dataset_utils import get_columns_from_dataset, exclude_column_from_dataset
 from utils.printing_utils import print_eval_message
 
-def evaluate_clustering(submission_path: str):
+def run_clustering_script(script_path: str) -> pd.DataFrame:
+    script_dir = os.path.dirname(script_path)
+    dataset_path = os.path.join(script_dir, 'data', 'ecoli.csv')
+    subprocess.run(['conda', 'run', '-n', 'agents_env', 'python', script_path,
+                    '--input', dataset_path, '--output', 'submission.csv'],
+                    check=True, cwd=script_dir)
+    submission_df = pd.read_csv(os.path.join(script_dir, 'submission.csv'))
+    return submission_df
+
+def evaluate_clustering(script_path: str, data_path: str):
+    print_eval_message("==========Running Clustering Script==========")
+    submission_df = run_clustering_script(script_path)
+    print_eval_message("==========Running Clustering Script==========")
     print_eval_message("==========Running Clustering Evaluation==========")
     try: 
-        submission_df = pd.read_csv(submission_path)
         X = exclude_column_from_dataset(submission_df[get_columns_from_dataset("agents_workspace/data/ecoli.csv")], "seq_name")
         labels = submission_df['cluster_id']
         
