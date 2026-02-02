@@ -51,3 +51,9 @@ def print_agent_node(node):
             else:
                 pretty_print(f"DEVINFO: Unexpected part type (in ModelRequestNode): {type(part)}")
                 pretty_print(part)
+
+def print_eval_message(message: str, is_error: bool = False):
+    if is_error:
+        pretty_print(message, color=bcolors.FAIL)
+    else:
+        pretty_print(message, color=bcolors.BLUE)
