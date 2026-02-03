@@ -8,6 +8,10 @@ from utils.dataset_utils import get_columns_from_dataset, exclude_column_from_da
 from utils.printing_utils import print_eval_message
 
 def run_clustering_script(script_path: str) -> pd.DataFrame:
+    """
+    Runs the clustering script located at script_path. 
+    This function assumes that the script is produced by the agent.
+    """
     script_dir = os.path.dirname(script_path)
     dataset_path = os.path.join(script_dir, 'data', 'ecoli.csv')
     try:
@@ -26,6 +30,10 @@ def run_clustering_script(script_path: str) -> pd.DataFrame:
     return submission_df
 
 def evaluate_clustering(script_path: str):
+    """
+    Evaluates the clustering performance produced by the clustering script.
+    Computes Silhouette Score, Davies-Bouldin Index, and Calinski-Harabasz score.
+    """
     print_eval_message("==========Running Clustering Script==========")
     submission_df = run_clustering_script(script_path)
     print_eval_message("==========Finished Running Clustering Script==========")
