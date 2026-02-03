@@ -28,7 +28,7 @@ def run_clustering_script(script_path: str) -> pd.DataFrame:
 def evaluate_clustering(script_path: str):
     print_eval_message("==========Running Clustering Script==========")
     submission_df = run_clustering_script(script_path)
-    print_eval_message("==========Running Clustering Script==========")
+    print_eval_message("==========Finished Running Clustering Script==========")
     print_eval_message("==========Running Clustering Evaluation==========")
     try: 
         X = exclude_column_from_dataset(submission_df[get_columns_from_dataset("agents_workspace/data/ecoli.csv")], "seq_name")
