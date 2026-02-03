@@ -14,7 +14,7 @@ The ```solution.ipynb``` file contains a possible solution to the clustering tas
 ```
 .
 ├── README.md
-├── env.yaml
+├── env.yaml                  # (Conda) Environment configuration file
 ├── workshop_start.ipynb      # Starting notebook for the seminar
 ├── solution.ipynb             # Complete solution with agent implementation
 ├── agents_workspace/
