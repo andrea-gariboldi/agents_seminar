@@ -16,6 +16,8 @@ class bcolors:
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
+    BOLD = '\033[1m'
+    OKBLUE = '\033[94m'
     ENDC = '\033[0m'
     ORANGE = '\033[38;5;208m'
     MINT = '\033[38;5;121m'
