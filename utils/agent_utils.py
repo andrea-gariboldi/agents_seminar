@@ -16,7 +16,7 @@ async def run_agent(agent: Agent, user_prompt: str, max_steps: int, deps=None):
             ) as agent_run:
                 async for node in agent_run:
                     pretty_print_node(node)
-                return agent_run.result.all_messages(), agent_run.result.output
+                return agent_run.result.output
 
         except Exception as e:
             trace = traceback.format_exc()
