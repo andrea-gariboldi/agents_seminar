@@ -58,8 +58,10 @@ def print_agent_node(node):
                 content = part.content if part.content else "<no output>"
                 pretty_print(f"📊 [Tool output] -> {content}", color=bcolors.MINT)
             elif(isinstance(part, RetryPromptPart)):
-                pretty_print("Output Validation Failed, Retry info:")
-                pretty_print(part.content)
+                if part.content == "Please include your response in a tool call.":
+                    pretty_print("🔁 [Retrying] The agent's output is not a tool call.", color=bcolors.WARNING)
+                else:
+                    pretty_print(part.content)
             else:
                 pretty_print(f"DEVINFO: Unexpected part type (in ModelRequestNode): {type(part)}")
                 pretty_print(part)
