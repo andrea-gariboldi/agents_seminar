@@ -1,13 +1,20 @@
-# Agents Seminar
+# LLM Agents Seminar
 ## Goal
-The goal of this repository is to introduce the audience to the basic concept when developing Large Language Models (LLMs) agents. In particular, this seminar is designed to explain the need of LLM based agents, tool calling and output validation.
+The goal of this repository is to introduce the audience to basic concepts when developing Large Language Models (LLMs) agents. In particular, this seminar is designed to explain the need of LLM based agents, tool calling and output validation.
 
 ## How to use
-The notebook provided are designed to be self-contained and run through Google colab. For sharing an editable copy of the notebook, use this link: [Agents Seminar Colab](https://colab.research.google.com/github/andrea-gariboldi/agents_seminar/blob/master/workshop_start.ipynb?copy=true). Important: when opening in Colab, make sure to change the runtime to use GPU, as it will be needed to make LLM inference fast enough.
+The notebook provided is designed to be self-contained and run through Google colab. For sharing an editable copy of the notebook, use this link: [Agents Seminar Colab](https://colab.research.google.com/github/andrea-gariboldi/agents_seminar/blob/master/workshop_start.ipynb?copy=true). Important: when opening in Colab, make sure to change the runtime to use GPU, as it will be needed to make LLM run smoothly.
 
-The ```workshop_start.ipynb``` file is the starting point of the seminar. It contains a partially implemented agent that is supposed to solve a clustering task using a dataset provided in the ```agents_workspace/data/``` folder. The agent has access to a set of tools that allow it to interact with the file system and execute python scripts.
+The ```workshop_start.ipynb``` file is the starting point of the seminar. It contains a partially implemented agent that is supposed to solve a clustering task using a dataset provided in the ```agents_workspace/data/``` folder. From here, the goal is to implement together with the audience a minimal set of tools for reaching the goal.
 
 The ```solution.ipynb``` file contains a possible solution to the clustering task, including the implementation of the tools and the agent configuration.
+
+## Already developed
+- ``utils/agent_utils.py`` contains the ``run_agent`` function for running the agent loop. 
+- ``utils/printing_utils.py`` implements the printing utils, using different colors for each agent call (e.g tool call, thinking tokens).
+- ``utils/workspace_utils.py`` contains the helpers for deleting the workspace before the start of a new agent run, avoiding lingering files from previous runs.
+- ``utils/dataset_utils.py`` helpers for metrics calculation.
+- ``eval/evaluate_results.py`` runs the produces clustering script and evaluates the performances of the produced clusters.
 
 ## Repository structure
 
